@@ -4,7 +4,8 @@ const express = require('express')
 const passport = require('passport')
 
 // pull in Mongoose model for examples
-const Example = require('../models/example')
+const UserProfile = require('../models/userProfile')
+const User = require('../models/user')
 
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
@@ -29,28 +30,22 @@ const router = express.Router()
 
 // INDEX
 // GET /examples
-router.get('/examples', requireToken, (req, res, next) => {
-  Example.find()
-    .then(examples => {
-      // `examples` will be an array of Mongoose documents
-      // we want to convert each one to a POJO, so we use `.map` to
-      // apply `.toObject` to each one
-      return examples.map(example => example.toObject())
-    })
+router.get('/profile', requireToken, (req, res, next) => {
+  UserProfile.find()
     // respond with status 200 and JSON of the examples
-    .then(examples => res.status(200).json({ examples: examples }))
+    .then(profile => res.status(200).json({ profile }))
     // if an error occurs, pass it to the handler
     .catch(next)
 })
 
 // SHOW
 // GET /examples/5a7db6c74d55bc51bdf39793
-router.get('/examples/:id', requireToken, (req, res, next) => {
+router.get('/profile/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
-  Example.findById(req.params.id)
+  UserProfile.findById(req.params.id)
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "example" JSON
-    .then(example => res.status(200).json({ example: example.toObject() }))
+    .then(userProfile => res.status(200).json({ userProfile: userProfile.toObject() }))
     // if an error occurs, pass it to the handler
     .catch(next)
 })
