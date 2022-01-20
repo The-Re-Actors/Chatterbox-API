@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const UserProfileSchema = require('./userProfile.js')
+const { UserProfileSchema } = require('./userProfile.js')
 
 const userSchema = new mongoose.Schema({
   email: {
