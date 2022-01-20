@@ -18,6 +18,21 @@ const db = require('./config/db')
 // require configured passport authentication middleware
 const auth = require('./lib/auth')
 
+// instantiate express application object
+const app = express()
+
+// socket
+const { createServer } = require('http')
+const { Server } = require('socket.io')
+
+const httpServer = createServer(app)
+const io = new Server(httpServer, {
+  cors: {
+    origin: `http://localhost:7165`,
+    credentials: true
+  }
+})
+
 // define server and client ports
 // used for cors and local port declaration
 const serverDevPort = 4741
@@ -31,9 +46,6 @@ mongoose.connect(db, {
   useCreateIndex: true,
   useUnifiedTopology: true
 })
-
-// instantiate express application object
-const app = express()
 
 // set CORS headers on response from this API using the `cors` NPM package
 // `CLIENT_ORIGIN` is an environment variable that will be set on Heroku
@@ -64,9 +76,20 @@ app.use(userRoutes)
 // passed any error messages from them
 app.use(errorHandler)
 
-// run API on designated port (4741 in this case)
-app.listen(port, () => {
-  console.log('listening on port ' + port)
+// // run API on designated port (4741 in this case)
+// app.listen(port, () => {
+//   console.log('listening on port ' + port)
+// })
+
+// socket
+io.on('connection', socket => {
+  socket.on('message', ({ name, message }) => {
+    io.emit('message', { name, message })
+  })
+})
+
+httpServer.listen(port , () => {
+  console.log('listening on port ', port)
 })
 
 // needed for testing
