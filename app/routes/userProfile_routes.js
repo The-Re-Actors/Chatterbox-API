@@ -4,7 +4,8 @@ const express = require('express')
 const passport = require('passport')
 
 // pull in Mongoose model for examples
-const UserProfile = require('../models/userProfile')
+const { UserProfileModel } = require('../models/userProfile')
+const User = require('../models/user')
 
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
@@ -41,7 +42,7 @@ router.get('/profile', requireToken, (req, res, next) => {
 // GET /examples/5a7db6c74d55bc51bdf39793
 router.get('/profile/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
-  UserProfile.findById(req.params.id)
+  UserProfileModel.findById(req.params.id)
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "example" JSON
     .then(userProfile => res.status(200).json({ userProfile: userProfile.toObject() }))
@@ -50,19 +51,29 @@ router.get('/profile/:id', requireToken, (req, res, next) => {
 })
 
 // CREATE
-// POST /examples
+// POST /profile
 router.post('/profile', requireToken, (req, res, next) => {
   // set owner of new example to be current user
-  req.body.example.owner = req.user.id
+  //   req.body.userProfile.owner = req.user.id
+  //   let profile
+  req.body.userProfile.owner = req.user.id
+  let profile
 
-  UserProfile.create(req.body.example)
-    // respond to succesful `create` with status 201 and JSON of new "example"
-    .then(profile => {
-      res.status(201).json({ profile: profile.toObject() })
+  UserProfileModel.create(req.body.userProfile)
+    .then(handle404)
+    .then((userProfile) => {
+      profile = userProfile
+      res.status(201).json({ userProfile })
     })
-    // if an error occurs, pass it off to our error handler
-    // the error handler needs the error message and the `res` object so that it
-    // can send an error message back to the client
+    .then(() => User.findById(req.user.id))
+    .then(handle404)
+    .then((user) => {
+      user.userProfile.push(profile)
+      return user.save()
+    })
+  // if an error occurs, pass it off to our error handler
+  // the error handler needs the error message and the `res` object so that it
+  // can send an error message back to the client
     .catch(next)
 })
 
@@ -73,7 +84,7 @@ router.patch('/profile/:id', requireToken, removeBlanks, (req, res, next) => {
   // owner, prevent that by deleting that key/value pair
   delete req.body.example.owner
 
-  UserProfile.findById(req.params.id)
+  UserProfileModel.findById(req.params.id)
     .then(handle404)
     .then(profile => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
@@ -92,7 +103,7 @@ router.patch('/profile/:id', requireToken, removeBlanks, (req, res, next) => {
 // DESTROY
 // DELETE /examples/5a7db6c74d55bc51bdf39793
 router.delete('/profile/:id', requireToken, (req, res, next) => {
-  UserProfile.findById(req.params.id)
+  UserProfileModel.findById(req.params.id)
     .then(handle404)
     .then(profile => {
       // throw an error if current user doesn't own `example`
