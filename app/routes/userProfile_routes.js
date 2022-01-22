@@ -3,7 +3,7 @@ const express = require('express')
 // Passport docs: http://www.passportjs.org/docs/
 const passport = require('passport')
 
-// pull in Mongoose model for examples
+// pull in Mongoose model for profiles
 const { UserProfileModel } = require('../models/userProfile')
 const User = require('../models/user')
 
@@ -29,22 +29,22 @@ const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router()
 
 // INDEX
-// GET /examples
+// GET /profiles
 router.get('/profile', requireToken, (req, res, next) => {
-  UserProfile.find()
-    // respond with status 200 and JSON of the examples
+  UserProfileModel.find()
+    // respond with status 200 and JSON of the profiles
     .then(profile => res.status(200).json({ profile }))
     // if an error occurs, pass it to the handler
     .catch(next)
 })
 
 // SHOW
-// GET /examples/5a7db6c74d55bc51bdf39793
+// GET /profiles/5a7db6c74d55bc51bdf39793
 router.get('/profile/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
   UserProfileModel.findById(req.params.id)
     .then(handle404)
-    // if `findById` is succesful, respond with 200 and "example" JSON
+    // if `findById` is succesful, respond with 200 and "profile" JSON
     .then(userProfile => res.status(200).json({ userProfile: userProfile.toObject() }))
     // if an error occurs, pass it to the handler
     .catch(next)
@@ -52,13 +52,13 @@ router.get('/profile/:id', requireToken, (req, res, next) => {
 
 // CREATE
 // POST /profile
-router.post('/profile', requireToken, (req, res, next) => {
-  // set owner of new example to be current user
+router.post('/profile/create', requireToken, (req, res, next) => {
+  // set owner of new profile to be current user
   //   req.body.userProfile.owner = req.user.id
   //   let profile
   req.body.userProfile.owner = req.user.id
   let profile
-
+  console.log(req.body)
   UserProfileModel.create(req.body.userProfile)
     .then(handle404)
     .then((userProfile) => {
@@ -78,11 +78,11 @@ router.post('/profile', requireToken, (req, res, next) => {
 })
 
 // UPDATE
-// PATCH /examples/5a7db6c74d55bc51bdf39793
+// PATCH /profiles/5a7db6c74d55bc51bdf39793
 router.patch('/profile/:id', requireToken, removeBlanks, (req, res, next) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
-  delete req.body.example.owner
+  delete req.body.profile.owner
 
   UserProfileModel.findById(req.params.id)
     .then(handle404)
@@ -101,14 +101,14 @@ router.patch('/profile/:id', requireToken, removeBlanks, (req, res, next) => {
 })
 
 // DESTROY
-// DELETE /examples/5a7db6c74d55bc51bdf39793
+// DELETE /profiles/5a7db6c74d55bc51bdf39793
 router.delete('/profile/:id', requireToken, (req, res, next) => {
   UserProfileModel.findById(req.params.id)
     .then(handle404)
     .then(profile => {
-      // throw an error if current user doesn't own `example`
+      // throw an error if current user doesn't own `profile`
       requireOwnership(req, profile)
-      // delete the example ONLY IF the above didn't throw
+      // delete the profile ONLY IF the above didn't throw
       profile.deleteOne()
     })
     // send back 204 and no content if the deletion succeeded
