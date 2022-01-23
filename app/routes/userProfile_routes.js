@@ -11,7 +11,7 @@ const User = require('../models/user')
 // to throw a custom error
 const customErrors = require('../../lib/custom_errors')
 
-// we'll use this function to send 404 when non-existant document is requested
+// we'll use this function to send 404 when non-existent document is requested
 const handle404 = customErrors.handle404
 // we'll use this function to send 401 when a user tries to modify a resource
 // that's owned by someone else
@@ -44,7 +44,7 @@ router.get('/profile/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
   UserProfileModel.findById(req.params.id)
     .then(handle404)
-    // if `findById` is succesful, respond with 200 and "profile" JSON
+    // if `findById` is successful, respond with 200 and "profile" JSON
     .then(userProfile => res.status(200).json({ userProfile: userProfile.toObject() }))
     // if an error occurs, pass it to the handler
     .catch(next)
@@ -106,15 +106,25 @@ router.delete('/profile/:id', requireToken, (req, res, next) => {
   UserProfileModel.findById(req.params.id)
     .then(handle404)
     .then(profile => {
+      const userId = profile.owner
+      console.log('profile ', profile)
       // throw an error if current user doesn't own `profile`
       requireOwnership(req, profile)
       // delete the profile ONLY IF the above didn't throw
       profile.deleteOne()
+      return userId
+    })
+    .then((userId) => User.findById(userId))
+    .then(user => {
+      console.log('user ', user)
+      user.userProfile.pull(req.params.id)
+      return user.save()
     })
     // send back 204 and no content if the deletion succeeded
     .then(() => res.sendStatus(204))
     // if an error occurs, pass it to the handler
     .catch(next)
 })
+
 
 module.exports = router
