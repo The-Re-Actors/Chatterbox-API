@@ -25,10 +25,20 @@ const app = express()
 const { createServer } = require('http')
 const { Server } = require('socket.io')
 
+// dev
+// const httpServer = createServer(app)
+// const io = new Server(httpServer, {
+//   cors: {
+//     origin: `http://localhost:7165`,
+//     credentials: true
+//   }
+// })
+
+// production
 const httpServer = createServer(app)
 const io = new Server(httpServer, {
   cors: {
-    origin: `http://localhost:7165`,
+    origin: `https://the-re-actors.github.io`,
     credentials: true
   }
 })
