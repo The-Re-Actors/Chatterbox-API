@@ -15,8 +15,8 @@ https://imgur.com/0Iwy2xR
 
 # Collaboration Process
 
-We use a kanban board with Miro to track and identify each team member's task 
-For issues, we would bring them up on our zoom room and deal with it in pair 
+We use a kanban board with Miro to track and identify each team member's task \
+For issues, we would bring them up on our zoom room and deal with it in pair \
 Our strategy was to always look at our project from the user angle and test each user story 
 
 # Technologies used:
