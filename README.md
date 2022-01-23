@@ -1,16 +1,25 @@
-Our site is a chatroom where users can chat with their friends in real-time. 
+Chatterbox allows users to pick a username upon entering, and start messaging with other users also connected in a real-time chat environment.
 
+# Links 
 Link to front-end repo: 
+
+TBD
 
 Link to deployed website:
 
-Link to wireframe:
+TBD 
 
-Link to user stories:
+Link to ERD:
 
+https://imgur.com/0Iwy2xR
 
+# Collaboration Process
 
-Technologies used:
+We use a kanban board with Miro to track and identify each team member's task 
+For issues, we would bring them up on our zoom room and deal with it in pair 
+Our strategy was to always look at our project from the user angle and test each user story 
+
+# Technologies used:
 
 - MongoDB
 - Mongoose
@@ -18,15 +27,13 @@ Technologies used:
 - Socket.io (for real time messaging)
 
 
-ERD
-
-Routes to API:
+# Routes to API:
 - Sign up
 - Sign in 
 - Change password
 - Sign out
-- Create a username
-- Delete a username
+- Create a profile username
+- Delete a profile username
 
-Unsolved Problems:
+# Unsolved Problems:
 - Upload user profile picture
