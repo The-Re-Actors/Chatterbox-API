@@ -38,7 +38,7 @@ const { Server } = require('socket.io')
 const httpServer = createServer(app)
 const io = new Server(httpServer, {
   cors: {
-    origin: `https://the-re-actors.github.io`,
+    origin: `https://The-Re-Actors.github.io`,
     credentials: true
   }
 })
