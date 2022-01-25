@@ -34,15 +34,6 @@ const { Server } = require('socket.io')
 //   }
 // })
 
-// production
-const httpServer = createServer(app)
-const io = new Server(httpServer, {
-  cors: {
-    origin: `https://the-re-actors.github.io`,
-    credentials: true
-  }
-})
-
 // define server and client ports
 // used for cors and local port declaration
 const serverDevPort = 4741
@@ -60,6 +51,15 @@ mongoose.connect(db, {
 // set CORS headers on response from this API using the `cors` NPM package
 // `CLIENT_ORIGIN` is an environment variable that will be set on Heroku
 app.use(cors({ origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}` }))
+
+// production
+const httpServer = createServer(app)
+const io = new Server(httpServer, {
+  cors: {
+    origin: `https://the-re-actors.github.io`,
+    credentials: true
+  }
+})
 
 // define port for API to run on
 const port = process.env.PORT || serverDevPort
