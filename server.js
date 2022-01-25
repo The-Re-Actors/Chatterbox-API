@@ -50,14 +50,13 @@ mongoose.connect(db, {
 
 // set CORS headers on response from this API using the `cors` NPM package
 // `CLIENT_ORIGIN` is an environment variable that will be set on Heroku
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}` }))
+app.use(cors({ origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}`, credentials: true }))
 
 // production
 const httpServer = createServer(app)
 const io = new Server(httpServer, {
   cors: {
     origin: 'https://the-re-actors.github.io',
-    methods: ['GET', 'POST'],
     credentials: true
   }
 })
