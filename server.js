@@ -25,14 +25,20 @@ const app = express()
 const { createServer } = require('http')
 const { Server } = require('socket.io')
 
-// dev
-// const httpServer = createServer(app)
-// const io = new Server(httpServer, {
-//   cors: {
-//     origin: `http://localhost:7165`,
-//     credentials: true
-//   }
-// })
+const httpServer = createServer(app)
+
+// set io determined upon whether in development or production
+const io = db.slice(38) === 'development' ? new Server(httpServer, {
+  cors: {
+    origin: 'http://localhost:7165',
+    credentials: true
+  }
+}) : new Server(httpServer, {
+  cors: {
+    origin: 'https://the-re-actors.github.io',
+    credentials: true
+  }
+})
 
 // define server and client ports
 // used for cors and local port declaration
@@ -82,7 +88,7 @@ app.use(userProfileRoutes)
 app.use(userRoutes)
 
 // register error handling middleware
-// note that this comes after the route middlewares, because it needs to be
+// note that this comes after the route middle wares, because it needs to be
 // passed any error messages from them
 app.use(errorHandler)
 
