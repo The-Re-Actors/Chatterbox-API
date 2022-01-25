@@ -56,7 +56,8 @@ app.use(cors({ origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDe
 const httpServer = createServer(app)
 const io = new Server(httpServer, {
   cors: {
-    origin: `https://the-re-actors.github.io`,
+    origin: 'https://the-re-actors.github.io',
+    methods: ['GET', 'POST'],
     credentials: true
   }
 })
