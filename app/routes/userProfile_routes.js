@@ -85,23 +85,32 @@ router.patch('/profile/:id', requireToken, removeBlanks, (req, res, next) => {
 
   delete req.body.userProfile.owner
 
-
-  UserProfileModel.findById(req.params.id)
+  User.findById(req.body.userId)
     .then(handle404)
-    .then(profile => {
-      // pass the `req` object and the Mongoose record to `requireOwnership`
-      // it will throw an error if the current user isn't the owner
-      requireOwnership(req, profile)
-
-      // pass the result of Mongoose's `.update` to the next `.then`
-      profile.updateOne(req.body.userProfile)
-      return profile.save()
+    .then(user => {
+      const profileUpdate = user.userProfile.id(req.params.id)
+      profileUpdate.set(req.body.userProfile)
+      return user.save()
     })
-    .then(() => UserProfileModel.findById(req.params.id))
-    // if that succeeded, return 204 and no JSON
-    .then((userProfile) => res.status(201).json({ userProfile }))
-    // if an error occurs, pass it to the handler
+    .then(user => res.status(201).json({ user }))
     .catch(next)
+
+  // UserProfileModel.findById(req.params.id)
+  //   .then(handle404)
+  //   .then(profile => {
+  //     // pass the `req` object and the Mongoose record to `requireOwnership`
+  //     // it will throw an error if the current user isn't the owner
+  //     requireOwnership(req, profile)
+
+  //     // pass the result of Mongoose's `.update` to the next `.then`
+  //     profile.updateOne(req.body.userProfile)
+  //     return profile.save()
+  //   })
+  //   .then(() => UserProfileModel.findById(req.params.id))
+    // if that succeeded, return 204 and no JSON
+    // .then((userProfile) => res.status(201).json({ userProfile }))
+    // // if an error occurs, pass it to the handler
+    // .catch(next)
 })
 
 // DESTROY
