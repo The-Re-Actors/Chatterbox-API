@@ -4,12 +4,9 @@ Chatterbox allows users to pick a username upon entering, and start messaging wi
 
 Link to front-end repo: https://github.com/The-Re-Actors/Chatterbox-client
 
-TBD
 
 Link to deployed website: https://the-re-actors.github.io/Chatterbox-client/
 
-
-TBD 
 
 Link to ERD:
 
