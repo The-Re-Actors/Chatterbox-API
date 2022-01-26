@@ -82,7 +82,7 @@ router.post('/profile/create', requireToken, (req, res, next) => {
 router.patch('/profile/:id', requireToken, removeBlanks, (req, res, next) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
-  delete req.body.profile.owner
+  delete req.body.userProfile.owner
 
   UserProfileModel.findById(req.params.id)
     .then(handle404)
@@ -92,10 +92,12 @@ router.patch('/profile/:id', requireToken, removeBlanks, (req, res, next) => {
       requireOwnership(req, profile)
 
       // pass the result of Mongoose's `.update` to the next `.then`
-      return profile.updateOne(req.body.profile)
+      profile.updateOne(req.body.userProfile)
+      return profile.save()
     })
+    .then(() => UserProfileModel.findById(req.params.id))
     // if that succeeded, return 204 and no JSON
-    .then(() => res.sendStatus(204))
+    .then((userProfile) => res.status(201).json({ userProfile }))
     // if an error occurs, pass it to the handler
     .catch(next)
 })

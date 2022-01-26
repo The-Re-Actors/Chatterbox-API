@@ -1,11 +1,11 @@
 Chatterbox allows users to pick a username upon entering, and start messaging with other users also connected in a real-time chat environment.
 
 # Links 
-Link to front-end repo: 
+Link to front-end repo: https://github.com/The-Re-Actors/Chatterbox-client
 
 TBD
 
-Link to deployed website:
+Link to deployed website: https://the-re-actors.github.io/Chatterbox-client/
 
 TBD 
 
@@ -15,7 +15,7 @@ https://imgur.com/0Iwy2xR
 
 # Collaboration Process
 
-We use a kanban board with Miro to track and identify each team member's task \
+We used a Kanban board with Miro to track and identify each team member's task \
 For issues, we would bring them up on our zoom room and deal with it in pair \
 Our strategy was to always look at our project from the user angle and test each user story 
 
@@ -28,12 +28,13 @@ Our strategy was to always look at our project from the user angle and test each
 
 
 # Routes to API:
-- Sign up
-- Sign in 
-- Change password
-- Sign out
-- Create a profile username
-- Delete a profile username
+- ```POST  /sign-up```  Sign up  
+- ```POST  /sign-in```  Sign in 
+- ```PATCH  /change-password```  Change password
+- ```DELETE  /sign-out```  Sign out
+- ```POST  /profile```  Create profile
+- ```PATCH  /profile/:id```  Update profile
+- ```DELETE  /profile/:id```  Delete profile
 
 # Unsolved Problems:
 - Upload user profile picture
