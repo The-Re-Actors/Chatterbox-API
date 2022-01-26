@@ -58,15 +58,6 @@ mongoose.connect(db, {
 // `CLIENT_ORIGIN` is an environment variable that will be set on Heroku
 app.use(cors({ origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}`, credentials: true }))
 
-// production
-const httpServer = createServer(app)
-const io = new Server(httpServer, {
-  cors: {
-    origin: 'https://the-re-actors.github.io',
-    credentials: true
-  }
-})
-
 // define port for API to run on
 const port = process.env.PORT || serverDevPort
 
