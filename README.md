@@ -1,41 +1,34 @@
-Chatterbox allows users to pick a username upon entering, and start messaging with other users also connected in a real-time chat environment.
+# Chatterbox
 
-# Links 
+Chatterbox is an immersive real-time chat web application that empowers users to personalize their experience by selecting a unique username upon entering. Seamlessly connecting individuals, Chatterbox enables instant communication with other users, creating a vibrant and interactive chat environment. Stay engaged, express yourself, and forge meaningful connections through dynamic conversations with a diverse community of connected users. Experience the thrill of real-time messaging with Chatterbox, where your voice is heard and shared in an instant.
 
-Link to front-end repo: https://github.com/The-Re-Actors/Chatterbox-client
+## Important Links
 
+- [Front-end Repository](https://github.com/The-Re-Actors/Chatterbox-client)
+- [Deployed Website](https://the-re-actors.github.io/Chatterbox-client/)
+- [Entity Relationship Diagram (ERD)](https://imgur.com/0Iwy2xR)
 
-Link to deployed website: https://the-re-actors.github.io/Chatterbox-client/
+## Collaboration Process
 
+We used a Kanban board on Miro to track and identify each team member's tasks. Whenever issues arose, we addressed them in pairs through Zoom meetings. Our strategy throughout the project was to always approach it from the user's perspective and thoroughly test each user story.
 
-Link to ERD:
-
-https://imgur.com/0Iwy2xR
-
-# Collaboration Process
-
-
-We used a Kanban board with Miro to track and identify each team member's task \
-For issues, we would bring them up on our zoom room and deal with it in pair \
-Our strategy was to always look at our project from the user angle and test each user story 
-
-# Technologies used:
+## Technologies Used
 
 - MongoDB
 - Mongoose
 - Express
-- Socket.io (for real time messaging)
+- Socket.io (for real-time messaging)
 
+## Routes to API
 
-# Routes to API:
+- `POST /sign-up`: Sign up
+- `POST /sign-in`: Sign in
+- `PATCH /change-password`: Change password
+- `DELETE /sign-out`: Sign out
+- `POST /profile`: Create profile
+- `PATCH /profile/:id`: Update profile
+- `DELETE /profile/:id`: Delete profile
 
-- ```POST  /sign-up```  Sign up  
-- ```POST  /sign-in```  Sign in 
-- ```PATCH  /change-password```  Change password
-- ```DELETE  /sign-out```  Sign out
-- ```POST  /profile```  Create profile
-- ```PATCH  /profile/:id```  Update profile
-- ```DELETE  /profile/:id```  Delete profile
+## Unsolved Problems
 
-# Unsolved Problems:
-- Upload user profile picture
+- Uploading user profile pictures
