@@ -1,27 +1,33 @@
- const mongoose = require('mongoose')
+// Importing required dependencies and modules
+const mongoose = require('mongoose')
 const { UserProfileSchema } = require('./userProfile.js')
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true
+// Defining the user schema
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    hashedPassword: {
+      type: String,
+      required: true
+    },
+    userProfile: [UserProfileSchema], // Embedding the UserProfileSchema as an array of user profiles
+    token: String
   },
-  hashedPassword: {
-    type: String,
-    required: true
-  },
-  userProfile: [UserProfileSchema],
-  token: String
-}, {
-  timestamps: true,
-  toObject: {
-    // remove `hashedPassword` field when we call `.toObject`
-    transform: (_doc, user) => {
-      delete user.hashedPassword
-      return user
+  {
+    timestamps: true,
+    toObject: {
+      // Configuring the transformation of the user object when calling `.toObject`
+      transform: (_doc, user) => {
+        delete user.hashedPassword // Removing the `hashedPassword` field from the transformed user object
+        return user
+      }
     }
   }
-})
+)
 
+// Exporting the user model
 module.exports = mongoose.model('User', userSchema)

@@ -5,8 +5,8 @@ const mongooseBaseName = 'chat-room-project'
 
 // create the mongodb uri for development and test
 const database = {
-	development: `mongodb://127.0.0.1/${mongooseBaseName}-development`,
-	test: `mongodb://127.0.0.1/${mongooseBaseName}-test`,
+  development: `mongodb://127.0.0.1/${mongooseBaseName}-development`,
+  test: `mongodb://127.0.0.1/${mongooseBaseName}-test`
 }
 
 // Identify if development environment is test or development

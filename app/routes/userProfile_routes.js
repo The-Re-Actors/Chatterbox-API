@@ -107,10 +107,10 @@ router.patch('/profile/:id', requireToken, removeBlanks, (req, res, next) => {
   //     return profile.save()
   //   })
   //   .then(() => UserProfileModel.findById(req.params.id))
-    // if that succeeded, return 204 and no JSON
-    // .then((userProfile) => res.status(201).json({ userProfile }))
-    // // if an error occurs, pass it to the handler
-    // .catch(next)
+  // if that succeeded, return 204 and no JSON
+  // .then((userProfile) => res.status(201).json({ userProfile }))
+  // // if an error occurs, pass it to the handler
+  // .catch(next)
 })
 
 // DESTROY
@@ -138,6 +138,5 @@ router.delete('/profile/:id', requireToken, (req, res, next) => {
     // if an error occurs, pass it to the handler
     .catch(next)
 })
-
 
 module.exports = router
